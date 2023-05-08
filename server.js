@@ -10,3 +10,12 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Listen on ${PORT}`);
 });
+
+require("dotenv").config();
+
+/* 
+test = require("./fileUpload");
+
+test("./file.txt");
+
+*/

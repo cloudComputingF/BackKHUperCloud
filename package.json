@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/cloudComputingF/BackKHUperCloud/issues"
   },
-  "homepage": "https://github.com/cloudComputingF/BackKHUperCloud#readme"
+  "homepage": "https://github.com/cloudComputingF/BackKHUperCloud#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1373.0",
+    "dotenv": "^16.0.3"
+  }
 }
