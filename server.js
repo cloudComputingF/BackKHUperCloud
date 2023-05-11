@@ -17,7 +17,8 @@ require("dotenv").config();
 
 const fileUpload = require("./fileUpload");
 
-app.post("/upload/image", fileUpload.single("image"), (req, res) => {
+app.post("/upload/file", fileUpload.single("file"), (req, res) => {
   //console.log(req.file);
+  console.log(req.file.location);
   res.json({ url: req.file.location });
 });
