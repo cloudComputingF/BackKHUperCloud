@@ -1,9 +1,7 @@
-require("dotenv").config();
-
 const path = require("path");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
-const s3 = require("./config/s3Setting");
+const s3 = require("../../config/s3Setting");
 
 const upload = multer({
   storage: multerS3({
