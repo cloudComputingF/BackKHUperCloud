@@ -21,7 +21,15 @@ app.post("/upload/file", fileUpload.single("file"), (req, res) => {
   res.json({ url: req.file.location });
 });
 
+const fileDownload = require("./File/fileSearch");
+app.get("/download/file", (req, res) => {
+  url = fileDownload(req.body.file_name);
+  res.send(url);
+});
+
 const db = require("../config/database");
+
+// DB Connect
 db.connect((err) => {
   if (err) {
     throw err;
