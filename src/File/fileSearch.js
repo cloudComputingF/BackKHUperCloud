@@ -1,12 +1,12 @@
 const db = require("../../config/database");
 
-const fileSearch = (file_name) => {
+const fileSearch = (fileName, callback) => {
   db.query(
     "select download from files where file_name = ?",
-    file_name,
+    fileName,
     (err, result) => {
-      console.log(result);
-      return result;
+      if (err) callback(err, null);
+      else callback(null, result[0]);
     }
   );
 };

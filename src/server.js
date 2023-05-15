@@ -22,9 +22,15 @@ app.post("/upload/file", fileUpload.single("file"), (req, res) => {
 });
 
 const fileDownload = require("./File/fileSearch");
+
 app.get("/download/file", (req, res) => {
-  url = fileDownload(req.body.file_name);
-  res.send(url);
+  fileDownload(req.body.file_name, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(data);
+    }
+  });
 });
 
 const db = require("../config/database");
