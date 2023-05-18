@@ -16,7 +16,10 @@ app.listen(PORT, () => {
 const fileUpload = require("./File/fileUpload");
 
 app.post("/upload/file", fileUpload.single("file"), (req, res) => {
-  //console.log(req.file);
+  console.log(req);
+  console.log(req.body.dir); // directory
+  // file name
+  console.log(req.file.originalname);
   console.log(req.file.location);
   res.json({ url: req.file.location });
 });
