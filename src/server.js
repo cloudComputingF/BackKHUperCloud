@@ -14,17 +14,27 @@ app.listen(PORT, () => {
 });
 
 const fileUpload = require("./File/fileUpload");
-
+const fileInsert = require("./DB/fileInsert");
 app.post("/upload/file", fileUpload.single("file"), (req, res) => {
-  console.log(req);
-  console.log(req.body.dir); // directory
-  // file name
-  console.log(req.file.originalname);
-  console.log(req.file.location);
+  // Form-Data -> dir , file
+
+  let file = {
+    name: req.file.originalname,
+    donwload: req.file.location,
+    folder_path: req.body.dir,
+    major_for: req.body.major,
+  };
+
+  console.log(file);
+  fileInsert(file, (err, result) => {
+    console.log("err: ", err);
+    console.log("result : ", result);
+  });
+
   res.json({ url: req.file.location });
 });
 
-const fileDownload = require("./File/fileSearch");
+const fileDownload = require("./DB/fileSearch");
 
 app.get("/download/file", (req, res) => {
   console.log(req.query.file_name);
