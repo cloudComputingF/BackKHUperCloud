@@ -27,7 +27,8 @@ app.post("/upload/file", fileUpload.single("file"), (req, res) => {
 const fileDownload = require("./File/fileSearch");
 
 app.get("/download/file", (req, res) => {
-  fileDownload(req.body.file_name, (err, data) => {
+  console.log(req.query.file_name);
+  fileDownload(req.query.file_name, (err, data) => {
     if (err) {
       console.log(err);
     } else {
