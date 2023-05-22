@@ -1,9 +1,6 @@
 require("dotenv").config();
 
-const path = require("path");
 const AWS = require("aws-sdk");
-const multer = require("multer");
-const multerS3 = require("multer-s3");
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.ACCESS_KEY_ID,
@@ -19,10 +16,20 @@ const fileDelete = (fileName, directory) => {
     (err, data) => {
       if (err) {
         console.log(err);
+      } else {
+        console.log(data);
       }
-      console.log(data);
     }
   );
+};
+
+const dirDelete = (folderName) => {
+  s3.deleteObjects({
+    Bucket: "khucloud",
+
+    // DB 에서 파일 서치해야해.
+    key: directory,
+  });
 };
 
 module.exports = fileDelete;

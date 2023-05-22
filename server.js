@@ -19,5 +19,8 @@ const fileUpload = require("./fileUpload");
 
 app.post("/upload/image", fileUpload.single("image"), (req, res) => {
   //console.log(req.file);
-  res.json({ url: req.file.location });
+  res.json({ url: req.file.location, name: req.file.filename });
 });
+
+const fileDelete = require("./fileDelete");
+fileDelete("1683808025851_동아리_지원서_(UMC).pdf", "folder1/");
