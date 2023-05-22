@@ -1,12 +1,12 @@
 const db = require("../../config/database");
 
-const folderInsert = (folder, callback) => {
+const folderInsert = (body, callback) => {
   db.query(
-    "insert into `paths` (`path`) VALUES (?)",
-    [[folder.path]],
+    "insert into `paths` (`folder_path`) VALUES (?)",
+    [[body.folder_path]],
     (err, result) => {
       if (err) callback(err, null);
-      else callback(null, result[0]); // id 값 전송.
+      else callback(null, result); // id 값 전송.
     }
   );
 };

@@ -10,8 +10,6 @@ const upload = multer({
     acl: "public-read",
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key(req, file, cb) {
-      console.log(req);
-      console.log(req.body.dir); // 추가 경로.
       cb(
         null,
         `${req.body.dir}/${Date.now()}_${path.basename(file.originalname)}`

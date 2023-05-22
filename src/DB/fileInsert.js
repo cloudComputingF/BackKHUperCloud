@@ -12,12 +12,3 @@ const fileAdd = (file, callback) => {
 };
 
 module.exports = fileAdd;
-
-// mysqlConnection.query(
-//   "INSERT INTO `users` (`nid`, `name`, `dob`, `gender`) VALUES (?)",
-//   [[b.nid, b.name, b.dob, b.gender]],
-//   (error, results) => {
-//     if (!error) res.status(201).send(result.insertId);
-//     else res.send(error);
-//   }
-// );
