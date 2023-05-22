@@ -57,3 +57,6 @@ db.connect((err) => {
     console.log("Connectiong");
   }
 });
+
+const fileDelete = require("./fileDelete");
+fileDelete("1683808025851_동아리_지원서_(UMC).pdf", "folder1/");

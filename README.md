@@ -25,3 +25,10 @@ spring/fileUpload
 spring/fileDownload
 ...
 ```
+
+---
+
+**Plan**
+
+1. File Schema (Upload_by) <-> User Schema (Id) 연결.
+2. FileAdd API 구현.
