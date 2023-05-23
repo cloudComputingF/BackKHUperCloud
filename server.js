@@ -31,17 +31,19 @@ app.post("/upload/folder", (req, res) => {
   });
 });
 
+const objectSearch = require("./src/DB/objectSearch");
 // 폴더가 있는지 확인해야해.
-const folderSearch = require("./src/DB/folderSearch");
 app.post("/upload/file", fileUpload.single("file"), (req, res) => {
   // Form-Data -> dir , file
+  console.log(req.file);
   let file = {
-    name: req.file.filename,
-    donwload: req.file.location,
+    name: req.file.originalname,
+    download: req.file.location,
     folder_path: req.body.dir,
-    major_for: req.body.major,
+    type: req.body.type,
+    key: req.file.key,
   };
-  folderSearch(file, (err, data) => {
+  objectSearch(file.folder_path, (err, data) => {
     if (err) {
       console.log(err);
       res.send({ Error: err });
@@ -50,8 +52,8 @@ app.post("/upload/file", fileUpload.single("file"), (req, res) => {
         res.send({ Message: "Not Exist Folder" });
       } else {
         // 여기 손보자.
-
-        file.folder_path = data[0].id; // 참조키.
+        console.log(file);
+        // file.folder_path = data[0].id; // 참조키.
         fileInsert(file, (err, result) => {
           console.log("err: ", err);
           console.log("result : ", result);
@@ -62,9 +64,21 @@ app.post("/upload/file", fileUpload.single("file"), (req, res) => {
   });
 });
 
-const fileDownload = require("./src/DB/fileSearch");
+const fileAllSearch = require("./src/DB/fileAllSearch");
+app.get("/list/files", (req, res) => {
+  fileAllSearch(req.query.file_path, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(data);
+    }
+  });
+});
+
+const fileDownload = require("./src/DB/objectSearch");
 app.get("/download/file", (req, res) => {
   console.log(req.query.file_name);
+
   fileDownload(req.query.file_name, (err, data) => {
     if (err) {
       console.log(err);
@@ -75,6 +89,7 @@ app.get("/download/file", (req, res) => {
 });
 
 const db = require("./config/database");
+const fileSearch = require("./src/DB/objectSearch");
 
 // DB Connect
 db.connect((err) => {
