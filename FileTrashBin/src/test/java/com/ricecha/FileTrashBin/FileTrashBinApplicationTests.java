@@ -1,10 +1,10 @@
-package com.ricecha.Test;
+package com.ricecha.FileTrashBin;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TestApplicationTests {
+class FileTrashBinApplicationTests {
 
 	@Test
 	void contextLoads() {
