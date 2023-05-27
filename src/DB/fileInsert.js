@@ -1,14 +1,16 @@
 const db = require("../../config/database");
 
-const fileAdd = (file, callback) => {
+const fileInsert = (file, callback) => {
   db.query(
-    "insert into `files` (`file_name`, `download`, `folder_path`, `key`, `type`) VALUES (?)",
-    [[file.name, file.download, file.folder_path, file.key, "file"]],
+    "insert into `s3file` (`file_name`, `file_key`, `download`) VALUES (?)",
+    [[file.name, file.key, file.download]],
     (err, result) => {
       if (err) callback(err, null);
-      else callback(null, result[0]);
+      else callback(null, result);
     }
   );
 };
 
-module.exports = fileAdd;
+module.exports = fileInsert;
+
+// file.folder_path.replace(/\"/gi, "")
