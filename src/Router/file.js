@@ -4,6 +4,7 @@ const router = express.Router();
 const fileUploadS3 = require("../S3/fileUploadS3");
 const fileSearchS3 = require("../S3/fileSearchS3");
 const fileInsert = require("../DB/fileInsert");
+const fileSearch = require("../DB/fileSearch");
 
 // POST /files/upload
 router.post("/upload", async (req, res) => {
@@ -55,7 +56,17 @@ router.get("/search", (req, res) => {
   });
 });
 
-// console.log(data);
-// res.send(data);
+router.get("/:fileId", (req, res) => {
+  console.log(req.params);
+  fileSearch(req.params.fileId, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.send({ error: "File Search Failed (One File)", Message: err });
+    }
+    return res.send({
+      Message: data,
+    });
+  });
+});
 
 module.exports = router;
