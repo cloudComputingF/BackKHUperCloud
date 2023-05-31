@@ -55,7 +55,7 @@ router.get("/search", (req, res) => {
     });
   });
 });
-
+// GET /files/(file_name)
 router.get("/:fileId", (req, res) => {
   console.log(req.params);
   fileSearch(req.params.fileId, (err, data) => {
