@@ -6,28 +6,25 @@ const fileSearchS3 = require("../S3/fileSearchS3");
 const folderUploadS3 = require("../S3/folderUploadS3");
 const fileInsert = require("../DB/fileInsert");
 const fileSearch = require("../DB/fileSearch");
-
 // POST /files/upload
-router.post("/upload", async (req, res) => {
-  await fileUploadS3.single("file")(req, res, (err) => {
-    if (err) {
-      console.log(err);
-      res.json({ error: "File Upload Failed", Message: err });
-    }
-
+router.post("/upload", fileUploadS3.single("file"), (req, res) => {
+  try {
     file = {
       name: req.file.originalname,
       key: req.file.key,
       download: req.file.location,
     };
-    fileInsert(file, (err, result) => {
-      if (err) {
-        console.log(err);
-        return res.json({ error: "File Add on DB Failed", Message: err });
-      }
-      console.log(result);
-      res.send("File Upload Success !");
-    });
+  } catch (err) {
+    console.log(err);
+    res.send({ error: err });
+  }
+  fileInsert(file, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.json({ error: "File Add on DB Failed", Message: err });
+    }
+    console.log(result);
+    res.send("File Upload Success !");
   });
 });
 
@@ -71,7 +68,7 @@ router.get("/search", async (req, res) => {
   });
 });
 // GET /files/(file_name)
-router.get("/db/:fileId", (req, res) => {
+router.get("/db/:fileName", (req, res) => {
   console.log(req.params);
   fileSearch(req.params.fileId, (err, data) => {
     if (err) {

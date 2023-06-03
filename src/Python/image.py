@@ -14,42 +14,33 @@ from skimage.metrics import structural_similarity as ssim
 import urllib.request
 import numpy as np
 
-""" => GET S3 Object URL 
-def create_presigned_url(bucket_name, bucket_key, expiration=3600, signature_version=s3_signature['v4']):
-
-    s3_client = boto3.client('s3',
-                         aws_access_key_id="AWS_ACCESS_KEY",
-                         aws_secret_access_key="AWS_SECRET_ACCESS_KEY",
-                         config=Config(signature_version=signature_version),
-                         region_name='ap-south-1'
-                         )
-    try:
-        response = s3_client.generate_presigned_url('get_object',
-                                                Params={'Bucket': bucket_name,
-                                                        'Key': bucket_key},
-                                                ExpiresIn=expiration)
-        print(s3_client.list_buckets()['Owner'])
-        for key in s3_client.list_objects(Bucket=bucket_name,Prefix=bucket_key)['Contents']:
-            print(key['Key'])
-    except ClientError as e:
-        logging.error(e)
-        return None
-        # The response contains the presigned URL
-    return response
-"""
-
 
 # S3 Object URL -> Convert -> IMAGE
 def url_to_image(URL):
     resp = urllib.request.urlopen(URL)
-    image = np.asarray(bytearray(resp.read()), dtype="unint8")
+    image = np.asarray(bytearray(resp.read()), dtype="uint8")
     image = cv2.imdecode(image, cv2.IMREAD_COLOR)
 
     return image
 
 
 image = url_to_image("https://khufcloud.s3.ap-northeast-2.amazonaws.com/test.png")
-print(image)
+image2 = url_to_image("https://khufcloud.s3.ap-northeast-2.amazonaws.com/test2.png")
+
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+gray2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
+
+# grayscale 로 전환해서 Img_list 에 넣어두자.
+
+(score, diff) = ssim(gray, gray2, full=True)
+
+print(score)  # score == 1 -> 이미지 비교 동일하다.
+
+
+# def dupImage(img_list):
+#     for a in range(len(img_list)):
+#         for b in range(a + 1, len(img_list)):
+#             if img_list[a] == img_list[b] :
 
 
 """
