@@ -46,15 +46,15 @@ router.post("/folder", async (req, res) => {
 });
 
 // GET /files/search?folder=test1
-router.get("/search", (req, res) => {
+router.get("/search", async (req, res) => {
   const result = [];
-  fileSearchS3(req.query.folder, (err, data) => {
-    var files = data.Contents;
-    var folders = data.CommonPrefixes;
+  await fileSearchS3(req.query.folder, (err, data) => {
     if (err) {
       console.log(err);
       return res.send({ error: "File Search Failed", Message: err });
     }
+    var files = data.Contents;
+    var folders = data.CommonPrefixes;
     // 파일들
     for (let i = 0; i < files.length; i++) {
       console.log(files[i].Key);
