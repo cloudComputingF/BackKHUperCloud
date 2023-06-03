@@ -16,12 +16,18 @@ public class StorageService {
     @Autowired
     private AmazonS3 s3Client;
 
-    public String deleteFile(String uploadFilePath, String uuidFileName) {
+    /**
+     * 파일을 삭제하는 메서드
+     *
+     * @param uploadFilePath 삭제할 파일의 경로
+     * @return 삭제 결과 ("success": 성공, "file not found": 파일이 없음)
+     */
+    public String deleteFile(String uploadFilePath) {
 
 	    String result = "success";
 
 	    try {
-	      String keyName = uploadFilePath + "/" + uuidFileName; // ex) 구분/년/월/일/파일.확장자
+	      String keyName = uploadFilePath; // ex) 구분/년/월/일/파일.확장자
 	      boolean isObjectExist = s3Client.doesObjectExist(bucketName, keyName);
 	      if (isObjectExist) {
 	        s3Client.deleteObject(bucketName, keyName);
@@ -35,10 +41,16 @@ public class StorageService {
 	    return result;
 	  }
 
-    public String restoreFile(String uploadFilePath, String uuidFileName, String destinationFilePath, String newFileName) {
+    /**
+     * 파일을 복원하는 메서드
+     *
+     * @param uploadFilePath 복원할 파일의 경로
+     * @return 복원 결과 ("success": 성공, "source file not found": 원본 파일이 없음, "failed": 실패)
+     */
+    public String restoreFile(String uploadFilePath) {
 	    String result = "success";
-	    String sourceKey = uploadFilePath + "/" + uuidFileName;
-	    String destinationKey = destinationFilePath + "/" + newFileName;
+	    String sourceKey = uploadFilePath;
+	    String destinationKey = sourceKey.substring(6);
 	    
 	    try {
 	      boolean isSourceObjectExist = s3Client.doesObjectExist(bucketName, sourceKey);

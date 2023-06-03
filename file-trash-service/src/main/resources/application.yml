@@ -1,8 +1,8 @@
 cloud:
   aws:
     credentials:
-      access-key: AKIARCC2JEWDU3KDNAJ3
-      secret-key: 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
+      access-key:
+      secret-key:
     region:
       static: ap-northeast-2
     stack:
@@ -10,7 +10,7 @@ cloud:
 
 application:
   bucket:
-    name: khufcloud
+    name:
 
 
 spring:

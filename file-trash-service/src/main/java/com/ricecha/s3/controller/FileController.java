@@ -13,12 +13,17 @@ public class FileController {
 	@Autowired
     private StorageService service;
 
-    @DeleteMapping("/delete/{uploadFilePath}/{uuidFileName}")
+	/**
+     * 파일을 삭제하는 엔드포인트
+     *
+     * @param uploadFilePath 삭제할 파일의 경로
+     * @return 응답 엔티티 (성공 시 "File deleted successfully.", 실패 시 "Failed to delete file.")
+     */
+    @DeleteMapping("/delete/{uploadFilePath}")
     public ResponseEntity<String> deleteFile(
-  	      @RequestParam(value = "uploadFilePath") String uploadFilePath,
-  	      @RequestParam(value = "uuidFileName") String uuidFileName) {
+  	      @RequestParam(value = "uploadFilePath") String uploadFilePath) {
   	    
-  	  String result = service.deleteFile(uploadFilePath, uuidFileName);
+  	  String result = service.deleteFile(uploadFilePath);
   	  if (result.equals("success")) {
   	      return ResponseEntity.status(HttpStatus.OK).body("File deleted successfully.");
   	    } else {
@@ -26,19 +31,18 @@ public class FileController {
   	    }
   	  }
     
-    @DeleteMapping("/restore/{uploadFilePath}/{uuidFileName}/{destinationFilePath}")
+    /**
+     * 파일을 복원하는 엔드포인트
+     *
+     * @param uploadFilePath 복원할 파일의 경로
+     * @return 응답 엔티티 (성공 시 "File moved successfully.", 원본 파일이 없을 시 "Source file not found.", 실패 시 "Failed to move file.")
+     */
+    @DeleteMapping("restore/{uploadFilePath}")
 	  public ResponseEntity<Object> restoreFile(
-	      @RequestParam(value = "uploadFilePath") String uploadFilePath,
-	      @RequestParam(value = "uuidFileName") String uuidFileName,
-	      @RequestParam(value = "destinationFilePath") String destinationFilePath,
-	      @RequestParam(value = "newFileName", required = false) String newFileName) {
+	      @RequestParam(value = "uploadFilePath") String uploadFilePath) {
 	    // 파일을 다른 위치로 이동하는 기능 호출하여 파일 이동 작업 수행
 	    String result;
-	    if (newFileName != null) {
-	      result = service.restoreFile(uploadFilePath, uuidFileName, destinationFilePath, newFileName);
-	    } else {
-	      result = service.restoreFile(uploadFilePath, uuidFileName, destinationFilePath, null);
-	    }
+	    result = service.restoreFile(uploadFilePath);
 
 	    if (result.equals("success")) {
 	      return ResponseEntity.status(HttpStatus.OK).body("File moved successfully.");
