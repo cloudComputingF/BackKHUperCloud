@@ -3,6 +3,7 @@ const router = express.Router();
 
 const fileUploadS3 = require("../S3/fileUploadS3");
 const fileSearchS3 = require("../S3/fileSearchS3");
+const folderUploadS3 = require("../S3/folderUploadS3");
 const fileInsert = require("../DB/fileInsert");
 const fileSearch = require("../DB/fileSearch");
 
@@ -26,6 +27,20 @@ router.post("/upload", async (req, res) => {
       }
       console.log(result);
       res.send("File Upload Success !");
+    });
+  });
+});
+
+// POST /files/folder
+router.post("/folder", async (req, res) => {
+  folderUploadS3(req, (err, data) => {
+    if (err)
+      return res.json({
+        error: "Folder Making Failed",
+        Message: err,
+      });
+    return res.json({
+      Message: "Folder Making Success",
     });
   });
 });
@@ -56,7 +71,7 @@ router.get("/search", (req, res) => {
   });
 });
 // GET /files/(file_name)
-router.get("/:fileId", (req, res) => {
+router.get("/db/:fileId", (req, res) => {
   console.log(req.params);
   fileSearch(req.params.fileId, (err, data) => {
     if (err) {
