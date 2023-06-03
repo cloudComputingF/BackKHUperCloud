@@ -7,11 +7,7 @@ const PORT = 8000;
 const uploadRouter = require("./src/Router/file");
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+app.use(cors());
 // File Upload
 app.use("/files", uploadRouter);
 

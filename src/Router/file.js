@@ -67,8 +67,8 @@ router.get("/search", async (req, res) => {
     });
   });
 });
-// GET /files/(file_name)
-router.get("/db/:fileName", (req, res) => {
+// GET /files/download/(file_name)
+router.get("/download/:fileName", (req, res) => {
   console.log(req.params);
   fileSearch(req.params.fileId, (err, data) => {
     if (err) {
