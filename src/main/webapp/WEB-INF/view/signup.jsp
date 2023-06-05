@@ -4,20 +4,22 @@
 <html lang="ko">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Login</title>
+  <title>Sign Up</title>
 </head>
 <body>
-<form action="/login" method="post">
-  <h2>로그인</h2>
+<h2>회원가입</h2>
+<form action="/signup" method="post">
   <div>
-    <input type="text" name="email" placeholder="Email"/>
+    <input type="text" name="name" placeholder="Name"/>
+  </div>
+  <div>
+    <input type="text" name="email" placeholder="*Email"/>
   </div>
   <div>
     <input type="password" name="password" placeholder="Password"/>
   </div>
 
-  <button type="submit">로그인</button>
-  <button type="button" onclick="location.href='signup'">회원가입</button>
+  <button type="submit">회원가입</button>
 </form>
 </body>
 </html>
