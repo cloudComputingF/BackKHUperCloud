@@ -1,21 +1,12 @@
-# For 중복 이미지 처리
-photo_list = []
-
-"""
-S3 로 파일 불러오기.
-
-
-
-"""
-# pip install opencv-python
-import cv2
+import cv2  # pip install opencv-python
 from skimage.metrics import structural_similarity as ssim
-
 import urllib.request
 import numpy as np
+import sys
+import json
 
 
-# S3 Object URL -> Convert -> IMAGE
+# # S3 Object Key -> Convert -> IMAGE
 def url_to_image(URL):
     resp = urllib.request.urlopen(URL)
     image = np.asarray(bytearray(resp.read()), dtype="uint8")
@@ -24,29 +15,29 @@ def url_to_image(URL):
     return image
 
 
-image = url_to_image("https://khufcloud.s3.ap-northeast-2.amazonaws.com/test.png")
-image2 = url_to_image("https://khufcloud.s3.ap-northeast-2.amazonaws.com/test2.png")
+def main():
+    url_list = json.loads(sys.argv[1])
 
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-gray2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
+    image_list = []
+    # 사진 파일들을 image_list 에 추가.
+    for i in range(len(url_list)):
+        if (
+            url_list[i]["download"].find(".PNG") != -1
+            or url_list[i]["download"].find(".jpg") != -1
+        ):
+            image_list.append(url_list[i]["download"])
 
-# grayscale 로 전환해서 Img_list 에 넣어두자.
+    # 데이터의 양이 많아지면 중복들을 제거하는게 좋을 듯 하다.
+    for a in range(0, len(image_list)):
+        image1 = url_to_image(image_list[a])
+        image1g = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
+        for b in range(0, len(image_list)):
+            image2 = url_to_image(image_list[b])
+            image2g = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
+            (score, diff) = ssim(image1g, image2g, full=True)
+            if (score) == 1:
+                print(image_list[a], image_list[b], " : 이미지 중복")
 
-(score, diff) = ssim(gray, gray2, full=True)
 
-print(score)  # score == 1 -> 이미지 비교 동일하다.
-
-
-# def dupImage(img_list):
-#     for a in range(len(img_list)):
-#         for b in range(a + 1, len(img_list)):
-#             if img_list[a] == img_list[b] :
-
-
-"""
-generated_signed_url = create_presigned_url(you_bucket_name, bucket_key, 
-seven_days_as_seconds, s3_signature['v4'])
-print(generated_signed_url)
-image_complete = url_to_image(generated_signed_url)
-
-"""
+if __name__ == "__main__":
+    main()

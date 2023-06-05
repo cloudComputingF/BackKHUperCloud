@@ -18,6 +18,7 @@
   "homepage": "https://github.com/cloudComputingF/BackKHUperCloud#readme",
   "dependencies": {
     "aws-sdk": "^2.1373.0",
+    "child-process": "^1.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "multer": "^1.4.5-lts.1",

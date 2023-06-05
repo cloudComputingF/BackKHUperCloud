@@ -1,6 +1,6 @@
 const db = require("../../config/database");
 
-const fileSearch = (name, callback) => {
+const fileNameSearch = (name, callback) => {
   db.query("select * from s3file where file_name = ?", name, (err, result) => {
     if (err) callback(err);
     else {
@@ -9,4 +9,4 @@ const fileSearch = (name, callback) => {
   });
 };
 
-module.exports = fileSearch;
+module.exports = fileNameSearch;

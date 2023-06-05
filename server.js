@@ -15,4 +15,25 @@ app.listen(PORT, () => {
   console.log(`Listen on ${PORT}`);
 });
 
-// Test
+// Search Dup Files => 중복파일 알려주기.
+
+const fileAllURL = require("./src/DB/fileAllURL");
+app.get("/dup", (req, res) => {
+  fileAllURL((err, result) => {
+    if (err) {
+      res.send({ Error: err });
+    } else {
+      const urlList = JSON.stringify(result);
+
+      const { spawn } = require("child_process");
+      const pyProg = spawn("python", ["./src/Python/image.py", urlList]);
+
+      pyProg.stdout.on("data", function (data) {
+        // All  Dup Image, data(python script return value)
+        console.log(data.toString());
+        res.write(data);
+        res.end("end");
+      });
+    }
+  });
+});

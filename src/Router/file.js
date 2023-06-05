@@ -5,7 +5,7 @@ const fileUploadS3 = require("../S3/fileUploadS3");
 const fileSearchS3 = require("../S3/fileSearchS3");
 const folderUploadS3 = require("../S3/folderUploadS3");
 const fileInsert = require("../DB/fileInsert");
-const fileSearch = require("../DB/fileSearch");
+const fileNameSearch = require("../DB/fileNameSearch");
 // POST /files/upload
 router.post("/upload", fileUploadS3.single("file"), (req, res) => {
   try {
@@ -70,14 +70,15 @@ router.get("/search", async (req, res) => {
 // GET /files/download/(file_name)
 router.get("/download/:fileName", (req, res) => {
   console.log(req.params);
-  fileSearch(req.params.fileName, (err, data) => {
+  fileNameSearch(req.params.fileName, (err, data) => {
     if (err) {
       console.log(err);
-      return res.send({ error: "File Search Failed (One File)", Message: err });
+      res.send({ error: "File Search Failed (One File)", Message: err });
+    } else {
+      res.send({
+        Message: data,
+      });
     }
-    return res.send({
-      Message: data,
-    });
   });
 });
 
