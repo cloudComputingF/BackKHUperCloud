@@ -24,10 +24,10 @@ public class UserService {
         userMapper.insertUser(userVo);
     }
 
-    public Integer login(String email, String password) {
+    public Long login(String email, String password) {
         UserVo userVo = userMapper.getUserByEmail(email);
         if (userVo.getPassword().equals(password)) {
-            return userVo.getId();
+            return Long.valueOf(userVo.getId());
         }
         return null;
     }
