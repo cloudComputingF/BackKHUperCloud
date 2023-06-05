@@ -13,7 +13,7 @@
     <input type="text" name="name" placeholder="Name"/>
   </div>
   <div>
-    <input type="text" name="email" placeholder="*Email"/>
+    <input type="text" name="email" placeholder="Email"/>
   </div>
   <div>
     <input type="password" name="password" placeholder="Password"/>
