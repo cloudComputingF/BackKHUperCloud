@@ -15,4 +15,11 @@ public class UserService {
     public List<UserVo> getUserList(){
         return userMapper.getUserList();
     }
+
+    public Long login(String email, String password){
+        UserVo userVo = userMapper.getUserByEmail(email);
+        if(UserVo.getPassword().equals(password))
+            return userVo.getId();
+        return null;
+    }
 }

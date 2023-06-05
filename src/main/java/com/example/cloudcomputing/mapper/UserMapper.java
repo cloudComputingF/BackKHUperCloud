@@ -9,4 +9,5 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
     List<UserVo> getUserList();
+    UserVo getUserByEmail(String email);  //회원정보
 }

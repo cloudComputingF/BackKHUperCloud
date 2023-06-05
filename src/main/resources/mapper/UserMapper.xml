@@ -4,5 +4,6 @@
     <select id="getUserList" resultType="com.example.cloudcomputing.vo.UserVo">
         SELECT *
         FROM User
+        WHERE email = #{email}
     </select>
 </mapper>
