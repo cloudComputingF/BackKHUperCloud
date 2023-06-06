@@ -16,7 +16,6 @@ app.listen(PORT, () => {
 });
 
 // Search Dup Files => 중복파일 알려주기.
-
 const fileAllURL = require("./src/DB/fileAllURL");
 app.get("/dup", (req, res) => {
   fileAllURL((err, result) => {
@@ -32,7 +31,7 @@ app.get("/dup", (req, res) => {
         // All  Dup Image, data(python script return value)
         console.log(data.toString());
         res.write(data);
-        res.end("end");
+        res.end("중복 검사 완료.");
       });
     }
   });
