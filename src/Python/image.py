@@ -30,7 +30,7 @@ def main():
         ):
             image_list.append(url_list[i]["download"])
 
-    try:
+    try:  # 해쉬 값들을 통해 비교.
         for image_url in image_list:
             image_data = url_to_image(image_url)
             image_gray = cv2.cvtColor(image_data, cv2.COLOR_BGR2GRAY)
