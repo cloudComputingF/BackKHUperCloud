@@ -7,6 +7,7 @@ const folderUploadS3 = require("../S3/folderUploadS3");
 const fileInsert = require("../DB/fileInsert");
 const fileNameSearch = require("../DB/fileNameSearch");
 const fileKeySearch = require("../DB/fileKeySearch");
+const fileInsertPassword = require("../DB/fileInsertPassword");
 // POST /files/upload
 router.post("/upload", fileUploadS3.single("file"), (req, res) => {
   try {
@@ -20,6 +21,29 @@ router.post("/upload", fileUploadS3.single("file"), (req, res) => {
     res.send({ error: err });
   }
   fileInsert(file, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.json({ error: "File Add on DB Failed", Message: err });
+    }
+    console.log(result);
+    res.send("File Upload Success !");
+  });
+});
+
+// POST/files/upload/password
+router.post("/upload/password", fileUploadS3.single("file"), (req, res) => {
+  try {
+    file = {
+      name: req.file.originalname,
+      key: req.file.key,
+      download: req.file.location,
+      password: req.body.password,
+    };
+  } catch (err) {
+    console.log(err);
+    res.send({ error: err });
+  }
+  fileInsertPassword(file, (err, result) => {
     if (err) {
       console.log(err);
       return res.json({ error: "File Add on DB Failed", Message: err });
@@ -83,16 +107,22 @@ router.get("/download/:fileName", (req, res) => {
   });
 });
 
-// GET /files/download/(file_key)
-router.get("/fileKey/download/:fileKey", (req, res) => {
-  fileKeySearch(req.params.fileKey, (err, data) => {
+// GET /files/fileKey/download/(file_key)
+router.get("/fileKey/download", (req, res) => {
+  fileKeySearch(req.query.fileKey, (err, data) => {
     if (err) {
       console.log(err);
       res.send({ error: "File Search Failed (File Key)", Message: err });
-    } else {
+    } else if (data[0].file_password == null) {
       res.send({
         Message: data,
       });
+    } else if (data[0].file_password == req.query.password) {
+      res.send({
+        Message: data,
+      });
+    } else {
+      res.send({ Message: "Check File Password." });
     }
   });
 });
