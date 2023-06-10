@@ -1,0 +1,30 @@
+{
+  "name": "khucloud",
+  "version": "1.0.0",
+  "description": "<br>",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cloudComputingF/BackKHUperCloud.git"
+  },
+  "author": "kongtaehyeon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cloudComputingF/BackKHUperCloud/issues"
+  },
+  "homepage": "https://github.com/cloudComputingF/BackKHUperCloud#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1373.0",
+    "child-process": "^1.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "multer": "^1.4.5-lts.1",
+    "multer-s3": "^2.10.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.3.1",
+    "path": "^0.12.7"
+  }
+}
