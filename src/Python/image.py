@@ -27,6 +27,7 @@ def main():
         if (
             url_list[i]["download"].find(".PNG") != -1
             or url_list[i]["download"].find(".jpg") != -1
+            or url_list[i]["download"].find(".png") != -1
         ):
             image_list.append(url_list[i]["download"])
 
