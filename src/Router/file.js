@@ -16,6 +16,7 @@ router.post("/upload", fileUploadS3.single("file"), (req, res) => {
       key: req.file.key,
       download: req.file.location,
     };
+    console.log(file);
   } catch (err) {
     console.log(err);
     res.send({ error: err });
@@ -107,9 +108,10 @@ router.get("/download/:fileName", (req, res) => {
   });
 });
 
-// GET /files/fileKey/download/(file_key)
+// GET /files/fileKey/download?fileKey=&password=
 router.get("/fileKey/download", (req, res) => {
   fileKeySearch(req.query.fileKey, (err, data) => {
+    console.log(data.length);
     if (err) {
       console.log(err);
       res.send({ error: "File Search Failed (File Key)", Message: err });
@@ -123,6 +125,26 @@ router.get("/fileKey/download", (req, res) => {
       });
     } else {
       res.send({ Message: "Check File Password." });
+    }
+  });
+});
+
+/*
+  폴더를 휴지통으로 이동 시키기.
+*/
+const fileMove = require("../S3/fileMove");
+const fileUpdateKey = require("../DB/fileUpdataKey");
+
+router.get("/move/trash", (req, res) => {
+  key = req.query.fileKey;
+  fileMove(key, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.send({ error: "Move File to Trash Folder Fail", Meesage: err });
+    } else {
+      fileUpdateKey(key, (err2, data2) => {
+        res.send({ Message: "File Move to Trash Folder Success" });
+      });
     }
   });
 });
