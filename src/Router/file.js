@@ -99,7 +99,7 @@ router.get("/search", async (req, res) => {
 // GET /files/download
 router.get("/download", (req, res) => {
   console.log(req.params);
-  fileNameSearch(req.query.fileName, (err, data) => {
+  fileKeySearch(req.query.fileName, (err, data) => {
     if (err) {
       console.log(err);
       res.send({ error: "File Search Failed (One File)", Message: err });
