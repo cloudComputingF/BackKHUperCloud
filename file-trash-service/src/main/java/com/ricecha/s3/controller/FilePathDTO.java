@@ -15,11 +15,11 @@ public class FilePathDTO {
     	this.filePath = filePath;
     }
     
-    public String GetFilePathDTO() {
+    public String getFilePath() {
     	return filePath;
     }
     
-    public void SetFilePathDTO(String filePath) {
+    public void setFilePath(String filePath) {
     	this.filePath = filePath;
     }
 }

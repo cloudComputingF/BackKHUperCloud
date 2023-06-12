@@ -23,8 +23,12 @@ public class TranslationController {
     @PostMapping("/translate")
     public String translateDocument(@RequestBody FilePathDTO filePath) {
         try {
-            System.out.println(filePath);
-            translationService.translateDocument(filePath.GetFilePathDTO());
+        	String credentialsPath = System.getenv("GOOGLE_APPLICATION_CREDENTIALS");
+        	System.out.println("Credentials path: " + credentialsPath);
+            System.out.println(filePath.getFilePath());
+            String Path = "Main/";
+            Path = Path.concat(filePath.getFilePath());
+            translationService.translateDocument(Path);
             return "Translation request submitted.";
         } catch (Exception e) {
             return "Translation failed: " + e.getMessage();
