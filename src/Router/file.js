@@ -168,6 +168,7 @@ router.get("/move/trash", (req, res) => {
 });
 // translated -> key
 router.get("/translate", (req, res) => {
+  key = req.query.filePath;
   file = {
     name: key.split("/")[key.split("/").length - 1],
     download:
