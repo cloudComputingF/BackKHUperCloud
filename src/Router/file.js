@@ -172,13 +172,15 @@ router.get("/translate", (req, res) => {
   file = {
     name: key.split("/")[key.split("/").length - 1],
     download:
-      "https://khufcloud.s3.ap-northeast-2.amazonaws.com/translated/Main" +
+      "https://khufcloud.s3.ap-northeast-2.amazonaws.com/translated/" +
       req.query.filePath,
-    key: "/translated/Main" + req.query.filePath,
+    key: "/translated/" + req.query.filePath,
   };
   fileInsert(file, (err, data) => {
     if (err) console.log(err);
-    else console.log(data);
+    else {
+      console.log(data);
+    }
   });
 });
 
