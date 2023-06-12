@@ -19,7 +19,7 @@ public class FileController {
      * @param uploadFilePath 삭제할 파일의 경로
      * @return 응답 엔티티 (성공 시 "File deleted successfully.", 실패 시 "Failed to delete file.")
      */
-    @DeleteMapping("/delete/{uploadFilePath}")
+    @DeleteMapping("delete/{uploadFilePath}")
     public ResponseEntity<String> deleteFile(
   	      @RequestParam(value = "uploadFilePath") String uploadFilePath) {
   	    
