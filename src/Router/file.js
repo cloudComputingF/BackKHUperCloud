@@ -167,8 +167,8 @@ router.get("/move/trash", (req, res) => {
   });
 });
 // translated -> key
-router.post("/translate", (req, res) => {
-  key = req.body.filePath;
+router.get("/translate", (req, res) => {
+  key = req.query.filePath;
   file = {
     name: key.split("/")[key.split("/").length - 1],
     download:
@@ -176,7 +176,10 @@ router.post("/translate", (req, res) => {
       req.query.filePath,
     key: "/translated/Main" + req.query.filePath,
   };
-  fileInsert(file);
+  fileInsert(file, (err, data) => {
+    if (err) console.log(err);
+    else console.log(data);
+  });
 });
 
 module.exports = router;
