@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/trash")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class FileController {
 
 	@Autowired

@@ -3,7 +3,7 @@ package com.ricecha.s3.controller;
 import org.springframework.web.bind.annotation.*;
 import com.ricecha.s3.service.TranslationService;
 
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TranslationController {
 	
 	private final TranslationService translationService;
