@@ -168,18 +168,20 @@ router.get("/move/trash", (req, res) => {
 });
 // translated -> key
 router.get("/translate", (req, res) => {
-  key = req.query.filePath;
   file = {
     name: key.split("/")[key.split("/").length - 1],
     download:
       "https://khufcloud.s3.ap-northeast-2.amazonaws.com/translated/" +
       req.query.filePath,
-    key: "/translated/" + req.query.filePath,
+    key: "translated/" + req.query.filePath,
   };
   fileInsert(file, (err, data) => {
-    if (err) console.log(err);
-    else {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    } else {
       console.log(data);
+      res.send(data);
     }
   });
 });
