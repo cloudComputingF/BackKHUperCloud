@@ -1,8 +1,10 @@
-package com.ricecha.s3.controller;
+ package com.ricecha.s3.controller;
 
 import org.springframework.web.bind.annotation.*;
 import com.ricecha.s3.service.TranslationService;
 
+@RestController
+@RequestMapping("/tr")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TranslationController {
 	
@@ -18,10 +20,11 @@ public class TranslationController {
      * @param filePath 번역할 문서의 파일 경로
      * @return 결과 메시지 ("Translation request submitted." 또는 "Translation failed: [에러 메시지]")
      */
-    @PostMapping("translate/{filePath}")
-    public String translateDocument(@PathVariable String filePath) {
+    @PostMapping("/translate")
+    public String translateDocument(@RequestBody FilePathDTO filePath) {
         try {
-            translationService.translateDocument(filePath);
+            System.out.println(filePath);
+            translationService.translateDocument(filePath.GetFilePathDTO());
             return "Translation request submitted.";
         } catch (Exception e) {
             return "Translation failed: " + e.getMessage();

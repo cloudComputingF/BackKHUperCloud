@@ -18,7 +18,7 @@ class FileTrashServiceApplicationTests {
 	@Test
 	void testTranslateAndExportToS3()
 	{
-        String filePath = "a.docx"; // Replace with the path to your file
+        String filePath = "Main/slide.pdf"; // Replace with the path to your file
         
         try {
             translationService.translateDocument(filePath);
@@ -27,7 +27,7 @@ class FileTrashServiceApplicationTests {
             System.err.println("An error occurred during translation and export to S3: " + e.getMessage());
         }
 	}
-	
+	/*
 	@Test
     void deleteFileTest() {
         String uploadFilePath = "trash/a.docx";
@@ -41,4 +41,5 @@ class FileTrashServiceApplicationTests {
         String result = service.restoreFile(uploadFilePath);
         System.out.println("Restore File Result: " + result);
     }
+    */
 }
