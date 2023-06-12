@@ -4,12 +4,25 @@ const router = express.Router();
 const fileUploadS3 = require("../S3/fileUploadS3");
 const fileSearchS3 = require("../S3/fileSearchS3");
 const fileDeleteS3 = require("../S3/fileDeleteS3");
+const fileGetS3 = require("../S3/fileGetS3");
 
 const folderUploadS3 = require("../S3/folderUploadS3");
 const fileInsert = require("../DB/fileInsert");
 const fileNameSearch = require("../DB/fileNameSearch");
 const fileKeySearch = require("../DB/fileKeySearch");
 const fileInsertPassword = require("../DB/fileInsertPassword");
+
+// TEST /filest/get
+router.get("/get", (req, res) => {
+  key = req.query.key;
+  fileGetS3(key, (err, data) => {
+    if (err) res.send(err);
+    else {
+      console.log(data);
+      res.send(data);
+    }
+  });
+});
 
 // POST /files/upload
 router.post("/upload", fileUploadS3.single("file"), (req, res) => {
@@ -79,6 +92,7 @@ router.get("/search", async (req, res) => {
       console.log(err);
       return res.send({ error: "File Search Failed", Message: err });
     }
+    console.log(data);
     var files = data.Contents;
     var folders = data.CommonPrefixes;
     // 파일들
@@ -96,7 +110,7 @@ router.get("/search", async (req, res) => {
     });
   });
 });
-// GET /files/download
+// GET /files/download?fileName=
 router.get("/download", (req, res) => {
   console.log(req.params);
   fileKeySearch(req.query.fileName, (err, data) => {
@@ -135,12 +149,12 @@ router.get("/fileKey/download", (req, res) => {
 /*
   폴더를 휴지통으로 이동 시키기.
 */
-const fileMove = require("../S3/fileMove");
+const fileMoveTrash = require("../S3/fileMoveTrash");
 const fileUpdateKey = require("../DB/fileUpdataKey");
 
 router.get("/move/trash", (req, res) => {
   key = req.query.fileKey;
-  fileMove(key, (err, data) => {
+  fileMoveTrash(key, (err, data) => {
     if (err) {
       console.log(err);
       res.send({ error: "Move File to Trash Folder Fail", Meesage: err });
@@ -151,6 +165,17 @@ router.get("/move/trash", (req, res) => {
       });
     }
   });
+});
+// translated -> key
+router.get("/translate", (req, res) => {
+  file = {
+    name: key.split("/")[key.split("/").length - 1],
+    download:
+      "https://khufcloud.s3.ap-northeast-2.amazonaws.com/translated/Main" +
+      req.query.filePath,
+    key: "/translated/Main" + req.query.filePath,
+  };
+  fileInsert(file);
 });
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const s3 = require("../../config/s3Setting");
 
-fileMove = async (key, callback) => {
+fileMoveTrash = async (key, callback) => {
   params = {
     Bucket: "khufcloud",
     CopySource: "khufcloud" + "/" + key,
@@ -18,4 +18,4 @@ fileMove = async (key, callback) => {
   });
 };
 
-module.exports = fileMove;
+module.exports = fileMoveTrash;
