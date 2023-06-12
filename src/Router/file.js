@@ -96,10 +96,10 @@ router.get("/search", async (req, res) => {
     });
   });
 });
-// GET /files/download/(file_name)
-router.get("/download/:fileName", (req, res) => {
+// GET /files/download
+router.get("/download", (req, res) => {
   console.log(req.params);
-  fileNameSearch(req.params.fileName, (err, data) => {
+  fileNameSearch(req.query.fileName, (err, data) => {
     if (err) {
       console.log(err);
       res.send({ error: "File Search Failed (One File)", Message: err });
