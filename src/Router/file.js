@@ -3,11 +3,14 @@ const router = express.Router();
 
 const fileUploadS3 = require("../S3/fileUploadS3");
 const fileSearchS3 = require("../S3/fileSearchS3");
+const fileDeleteS3 = require("../S3/fileDeleteS3");
+
 const folderUploadS3 = require("../S3/folderUploadS3");
 const fileInsert = require("../DB/fileInsert");
 const fileNameSearch = require("../DB/fileNameSearch");
 const fileKeySearch = require("../DB/fileKeySearch");
 const fileInsertPassword = require("../DB/fileInsertPassword");
+
 // POST /files/upload
 router.post("/upload", fileUploadS3.single("file"), (req, res) => {
   try {
@@ -143,6 +146,7 @@ router.get("/move/trash", (req, res) => {
       res.send({ error: "Move File to Trash Folder Fail", Meesage: err });
     } else {
       fileUpdateKey(key, (err2, data2) => {
+        fileDeleteS3(key);
         res.send({ Message: "File Move to Trash Folder Success" });
       });
     }
